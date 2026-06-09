@@ -2,6 +2,8 @@ package ru.netology.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import ru.netology.model.Post;
 import ru.netology.service.PostService;
 
@@ -10,12 +12,14 @@ import java.io.IOException;
 import java.io.Reader;
 import ru.netology.exception.NotFoundException;
 
+@Controller
 public class PostController {
     public static final String APPLICATION_JSON = "application/json";
     private final PostService service;
 
     private static final Gson GSON = new Gson();
 
+    @Autowired
     public PostController(PostService service) {
         this.service = service;
     }
