@@ -4,9 +4,7 @@ import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -19,11 +17,12 @@ public class PostRepository {
         return new ArrayList<>(posts.values());
     }
 
-    public Optional<Post> getById(long id) {
-        if (id <= 0) {
-            return Optional.empty();
+    public Post getById(long id) {
+        Post post = posts.get(id);
+        if (post == null) {
+            throw new NotFoundException("Post with id " + id + " not found");
         }
-        return Optional.ofNullable(posts.get(id));
+        return post;
     }
 
     public Post save(Post post) {
@@ -41,17 +40,12 @@ public class PostRepository {
             if (existingPost == null) {
                 throw new NotFoundException("Post with id " + post.getId() + " not found");
             }
-
-            // Обновляем content
             existingPost.setContent(post.getContent());
             return existingPost;
         }
     }
 
     public void removeById(long id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("ID must be positive");
-        }
         Post removed = posts.remove(id);
         if (removed == null) {
             throw new NotFoundException("Post with id " + id + " not found");

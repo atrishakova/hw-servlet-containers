@@ -1,6 +1,5 @@
 package ru.netology.service;
 
-import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 import ru.netology.repository.PostRepository;
 
@@ -18,10 +17,13 @@ public class PostService {
     }
 
     public Post getById(long id) {
-        return repository.getById(id).orElseThrow(NotFoundException::new);
+        return repository.getById(id);
     }
 
     public Post save(Post post) {
+        if (post.getContent() == null || post.getContent().trim().isEmpty()) {
+            throw new IllegalArgumentException("Post content cannot be empty");
+        }
         return repository.save(post);
     }
 
@@ -29,4 +31,3 @@ public class PostService {
         repository.removeById(id);
     }
 }
-
