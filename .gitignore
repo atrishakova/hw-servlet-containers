@@ -48,3 +48,5 @@ captures/
 
 .idea/
 .gigaide/
+
+target/
